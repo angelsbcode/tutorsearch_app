@@ -7,7 +7,8 @@ class TutorRepository {
       id: '1',
       nombre: 'Mariana Ruiz',
       costo: 250.0,
-      rutaImagen: 'images/mariana.png', // Ajusta según tu asset o URLimages\mariana.png
+      rutaImagen:
+          'images/mariana.png', // Ajusta según tu asset o URLimages\mariana.png
       materia: 'Cálculo Diferencial',
       descripcion: 'Tutora especializada en cálculo y matemáticas avanzados.',
     ),
@@ -22,6 +23,6 @@ class TutorRepository {
   ];
 
   List<Tutor> obtenerTutor() {
-    return tutorDemo;
+    return List.unmodifiable(_tutores);
   }
 }

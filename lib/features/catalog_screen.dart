@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/core_theme.dart';
 import '../core/widgets/tutor_card.dart';
 import 'detalle_tutor_screen.dart';
@@ -14,14 +15,21 @@ class TutorCatalogScreen extends StatefulWidget {
 
 class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
   final TutorRepository _repository = TutorRepository();
+
   String materiaSeleccionada = 'Todas';
   String textoBusqueda = '';
 
-  List<Tutor> get TutorFiltradas {
+  List<Tutor> get tutoresFiltrados {
     return _repository.obtenerTutor().where((tutor) {
-      final coincidenciamateria = materiaSeleccionada == 'Todas' || tutor.materia == materiaSeleccionada;
-      final coincidenciaBusqueda = tutor.nombre.toLowerCase().contains(textoBusqueda.toLowerCase());
-      return coincidenciamateria && coincidenciaBusqueda;
+      final coincidenciaMateria =
+          materiaSeleccionada == 'Todas' ||
+          tutor.materia == materiaSeleccionada;
+
+      final coincidenciaBusqueda = tutor.nombre.toLowerCase().contains(
+        textoBusqueda.toLowerCase(),
+      );
+
+      return coincidenciaMateria && coincidenciaBusqueda;
     }).toList();
   }
 
@@ -30,9 +38,9 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
     // Obtenemos dinámicamente las materias únicas directamente del repositorio
     final List<String> materias = [
       'Todas',
-      ..._repository.obtenerTutor().map((t) => t.materia).toSet()
+      ..._repository.obtenerTutor().map((t) => t.materia).toSet(),
     ];
-    
+
     return Scaffold(
       backgroundColor: AppColors.fondo,
       body: Column(
@@ -41,7 +49,12 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
           // Header Superior con el color primario y diseño estilizado
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.only(top: 50, left: 24, right: 24, bottom: 24),
+            padding: const EdgeInsets.only(
+              top: 50,
+              left: 24,
+              right: 24,
+              bottom: 24,
+            ),
             decoration: const BoxDecoration(
               color: AppColors.primario,
               borderRadius: BorderRadius.only(
@@ -83,10 +96,7 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                 const SizedBox(height: 4),
                 const Text(
                   'Encuentra el apoyo académico que necesitas',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                  ),
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
                 ),
               ],
             ),
@@ -102,11 +112,20 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Buscar tutor por nombre...',
-                      hintStyle: const TextStyle(color: AppColors.textoSecundario, fontSize: 14),
-                      prefixIcon: const Icon(Icons.search, color: AppColors.primario),
+                      hintStyle: const TextStyle(
+                        color: AppColors.textoSecundario,
+                        fontSize: 14,
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: AppColors.primario,
+                      ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 16,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
@@ -117,7 +136,10 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(color: AppColors.primario, width: 1.5),
+                        borderSide: const BorderSide(
+                          color: AppColors.primario,
+                          width: 1.5,
+                        ),
                       ),
                     ),
                     onChanged: (value) {
@@ -126,7 +148,7 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                       });
                     },
                   ),
-                  
+
                   const SizedBox(height: 16),
 
                   // Sección de filtros responsivos con Wrap (pasan a la siguiente línea si no caben)
@@ -150,16 +172,23 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                         selectedColor: AppColors.primario,
                         backgroundColor: Colors.white,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                           side: BorderSide(
-                            color: isSelected ? AppColors.primario : Colors.grey.shade300,
+                            color: isSelected
+                                ? AppColors.primario
+                                : Colors.grey.shade300,
                             width: isSelected ? 1.5 : 1,
                           ),
                         ),
                         labelStyle: TextStyle(
-                          color: isSelected ? Colors.white : AppColors.textoPrincipal,
+                          color: isSelected
+                              ? Colors.white
+                              : AppColors.textoPrincipal,
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
                         ),
@@ -171,69 +200,82 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
                       );
                     }).toList(),
                   ),
-                  
+
                   const SizedBox(height: 20),
 
                   // Cuadrícula (Grid) de tutores filtrados
                   TutorFiltradas.isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(Icons.search_off_rounded, size: 56, color: AppColors.textoSecundario),
-                            SizedBox(height: 12),
-                            Text(
-                              'No se encontraron tutores', 
-                              style: TextStyle(color: AppColors.textoSecundario, fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Intenta buscar con otro término o categoría.',
-                              style: TextStyle(color: Colors.grey, fontSize: 13),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // 2 columnas
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        childAspectRatio: 0.72, // Proporción de las tarjetas
-                      ),
-                      itemCount: TutorFiltradas.length,
-                      itemBuilder: (context, index) {
-                        final tutor = TutorFiltradas[index];
-                        return Hero(
-                          tag: 'tutor-${tutor.id}',
-                          child: TutorCard( 
-                            nombre: tutor.nombre,
-                            costoHora: tutor.costo,
-                            materia: tutor.materia,
-                            rutaImagen: tutor.rutaImagen,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TutorDetailsScreen(
-                                    nombre: tutor.nombre,
-                                    rutaImagen: tutor.rutaImagen,
-                                    materia: tutor.materia,
-                                    costoHora: tutor.costoTexto,
-                                    descripcion: tutor.descripcion,
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.search_off_rounded,
+                                  size: 56,
+                                  color: AppColors.textoSecundario,
+                                ),
+                                SizedBox(height: 12),
+                                Text(
+                                  'No se encontraron tutores',
+                                  style: TextStyle(
+                                    color: AppColors.textoSecundario,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              );
-                            },
+                                SizedBox(height: 4),
+                                Text(
+                                  'Intenta buscar con otro término o categoría.',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                    ),
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // 2 columnas
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio:
+                                    0.72, // Proporción de las tarjetas
+                              ),
+                          itemCount: TutorFiltradas.length,
+                          itemBuilder: (context, index) {
+                            final tutor = TutorFiltradas[index];
+                            return Hero(
+                              tag: 'tutor-${tutor.id}',
+                              child: TutorCard(
+                                nombre: tutor.nombre,
+                                costoHora: tutor.costo,
+                                materia: tutor.materia,
+                                rutaImagen: tutor.rutaImagen,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TutorDetailsScreen(
+                                        nombre: tutor.nombre,
+                                        rutaImagen: tutor.rutaImagen,
+                                        materia: tutor.materia,
+                                        costoHora: tutor.costoTexto,
+                                        descripcion: tutor.descripcion,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

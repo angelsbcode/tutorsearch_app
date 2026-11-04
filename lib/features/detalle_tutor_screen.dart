@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/core_theme.dart';
 
 class TutorDetailsScreen extends StatelessWidget {
@@ -48,7 +49,11 @@ class TutorDetailsScreen extends StatelessWidget {
                       height: 280,
                       width: 280,
                       color: Colors.grey.shade200,
-                      child: const Icon(Icons.person, size: 80, color: AppColors.textoSecundario),
+                      child: const Icon(
+                        Icons.person,
+                        size: 80,
+                        color: AppColors.textoSecundario,
+                      ),
                     ),
                   ),
                 ),
@@ -58,9 +63,8 @@ class TutorDetailsScreen extends StatelessWidget {
               // Nombre del tutor
               Text(
                 nombre,
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontSize: 26,
-                ),
+                style: Theme.of(context).textTheme.headlineLarge
+                    ?.copyWith(fontSize: 26),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -68,7 +72,10 @@ class TutorDetailsScreen extends StatelessWidget {
               // Contenedor con categoría y costo por hora adaptado a AppColors
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -85,7 +92,11 @@ class TutorDetailsScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.category_outlined, size: 20, color: AppColors.primario),
+                        const Icon(
+                          Icons.category_outlined,
+                          size: 20,
+                          color: AppColors.primario,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           materia,

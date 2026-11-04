@@ -1,4 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import 'catalog_screen.dart'; // Asegúrate de que apunte a tu catálogo
 
 class OnboardingScreen extends StatefulWidget {
@@ -40,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -51,11 +54,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 alignment: Alignment.topRight,
                 child: TextButton(
                   onPressed: _navigateToCatalog,
-                  child: const Text('Omitir', style: TextStyle(color: Colors.grey)),
+                  child: const Text(
+                    'Omitir',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
               const Spacer(),
-              
+
               // Carrusel de pantallas demostrativas (PageView)
               SizedBox(
                 height: 260,
@@ -72,13 +78,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                 ),
               ),
-              
+
               const Spacer(),
-              
+
               // Títulos dinámicos
               Text(
                 _onboardingData[_currentIndex]['title']!,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
@@ -88,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 style: const TextStyle(color: Colors.black54, height: 1.4),
               ),
               const SizedBox(height: 24),
-              
+
               // Indicadores de puntos (Dots)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +117,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-              
+
               // Botón Siguiente / Comenzar
               SizedBox(
                 width: double.infinity,
@@ -116,7 +125,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF3F51B5),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                   onPressed: () {
                     if (_currentIndex < _onboardingData.length - 1) {
@@ -129,7 +140,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     }
                   },
                   child: Text(
-                    _currentIndex == _onboardingData.length - 1 ? 'Comenzar' : 'Siguiente',
+                    _currentIndex == _onboardingData.length - 1
+                        ? 'Comenzar'
+                        : 'Siguiente',
                     style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
@@ -155,19 +168,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Card(
               elevation: 2,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: const ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Color(0xFF3F51B5),
                   child: Text('MR', style: TextStyle(color: Colors.white)),
                 ),
-                title: Text('Mariana Ruiz', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                subtitle: Text('Cálculo Diferencial', style: TextStyle(fontSize: 12)),
+                title: Text(
+                  'Mariana Ruiz',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                subtitle: Text(
+                  'Cálculo Diferencial',
+                  style: TextStyle(fontSize: 12),
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.star, color: Colors.amber, size: 16),
-                    Text(' 4.9', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                    Text(
+                      ' 4.9',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -187,9 +214,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Icon(Icons.grid_view_rounded, size: 64, color: Color(0xFF3F51B5)),
             SizedBox(height: 12),
-            Text('Catálogo de Profesores', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(
+              'Catálogo de Profesores',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             SizedBox(height: 4),
-            Text('Filtra materias y encuentra opciones rápido.', style: TextStyle(color: Colors.grey, fontSize: 12)),
+            Text(
+              'Filtra materias y encuentra opciones rápido.',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
           ],
         ),
       );
@@ -209,9 +242,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Icon(Icons.person, size: 36, color: Colors.white),
             ),
             SizedBox(height: 12),
-            Text('Ficha Detallada del Tutor', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(
+              'Ficha Detallada del Tutor',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             SizedBox(height: 4),
-            Text('Consulta costos, descripción y horarios.', style: TextStyle(color: Colors.grey, fontSize: 12)),
+            Text(
+              'Consulta costos, descripción y horarios.',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            ),
           ],
         ),
       );
