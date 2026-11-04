@@ -1,33 +1,26 @@
 import 'package:flutter/material.dart';
 import 'features/splash_screen.dart';
 import 'providers/sesion_provider.dart';
-//import 'package:vibero/core_theme.dart';
+import 'core/core_theme.dart';
 import 'package:provider/provider.dart';
 
 //import 'package:firebase_core/firebase_core.dart';
 //import 'firebase_options.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => null,//CartProvider(),
-      child: const ViveroApp(),
-    ),
-  );
+void main() {
+  runApp(const MyApp());
 }
 
-class ViveroApp extends StatelessWidget{
-  const ViveroApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vivero+', 
+      title: 'Huellitas Match',
       debugShowCheckedModeBanner: false,
-      theme: null, //buildAppTheme(),
-      home: null, //const SplashScreen(),
+      theme: buildAppTheme(), // <--- Aquí aplicas tu tema
+      home: const SplashScreen(), // Tu pantalla inicial
     );
   }
 }
-
