@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'cart_provider.dart';
-import 'package:provider/provider.dart';
+import '../core/core_theme.dart';
 
 class TutorDetailsScreen extends StatelessWidget {
   final String nombre;
@@ -15,145 +14,152 @@ class TutorDetailsScreen extends StatelessWidget {
     required this.rutaImagen,
     required this.materia,
     required this.costoHora,
-    required this.descripcion
+    required this.descripcion,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.fondo,
       appBar: AppBar(
         title: Text(nombre),
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.fondo,
+        foregroundColor: AppColors.textoPrincipal,
+        elevation: 0,
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Imagen con tamaño controlado para que se vea completa
-                Hero(
-                  tag: 'tutor-$nombre',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      rutaImagen,
-                      height: 300, // Altura más compacta
-                      width: 250,  // Ancho controlado para que sea cuadrada y no gigante
-                      fit: BoxFit.cover,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Imagen del tutor con animación Hero y bordes redondeados del tema
+              Hero(
+                tag: 'tutor-$nombre',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    rutaImagen,
+                    height: 280,
+                    width: 280,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 280,
+                      width: 280,
+                      color: Colors.grey.shade200,
+                      child: const Icon(Icons.person, size: 80, color: AppColors.textoSecundario),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+              ),
+              const SizedBox(height: 24),
 
-                // Nombre de la tutor
-                Text(
-                  nombre,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w900,
-                  ),
+              // Nombre del tutor
+              Text(
+                nombre,
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  fontSize: 26,
                 ),
-                const SizedBox(height: 16),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
 
-                // Contenedor con categoría y costoHora en la misma fila
-                Container(
-                  width: 300, // Ancho moderado para que no ocupe toda la pantalla
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 92, 174, 96).withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color.fromARGB(255, 74, 125, 76).withValues(alpha: 0.2)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.category_outlined, size: 18, color: Colors.green),
-                          const SizedBox(width: 6),
-                          Text(
-                            materia,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        costoHora,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 8, 139, 13),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                    descripcion,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 6, 6, 6),
+              // Contenedor con categoría y costo por hora adaptado a AppColors
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                const SizedBox(height: 24),
-
-                // Botones con tamaño normal (no responsivos/anchos)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    /*ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.read<CartProvider>().agregar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('$nombre agregada al carrito'),
-                          ),
-                        );
-                      }, 
-                      icon: const Icon(Icons.add_shopping_cart, size: 18),
-                      label: const Text('Agregar'),
-                    ),*/
-                    const SizedBox(width: 12),
-                    /*OutlinedButton.icon(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.red.shade700,
-                        side: BorderSide(color: Colors.red.shade300),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.read<CartProvider>().quitar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('$nombre eliminada del carrito'),
-                          ),
-                        );
-                      }, 
-                      icon: const Icon(Icons.remove_shopping_cart, size: 18),
-                      label: const Text('Eliminar'),
-                    ),
-                    */
                   ],
                 ),
-              ],
-            ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.category_outlined, size: 20, color: AppColors.primario),
+                        const SizedBox(width: 8),
+                        Text(
+                          materia,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textoPrincipal,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      costoHora,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primario,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Descripción
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Acerca del tutor',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textoPrincipal,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      descripcion,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textoSecundario,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 32),
+
+              // Botón de acción principal (ej. Agendar o Contactar)
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Solicitud enviada a $nombre'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
+                  child: const Text('Agendar tutoría'),
+                ),
+              ),
+            ],
           ),
         ),
       ),
