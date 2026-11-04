@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'onboarding_screen.dart'; // Asegúrate de ajustar esta ruta según dónde tengas tu OnboardingScreen
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    
+    // Temporizador de 2 segundos para pasar al Onboarding
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return; // Validación de seguridad por si el widget se desmonta
+      
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +38,6 @@ class SplashScreen extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Reemplazar por un Image.asset con el búho correspondiente
                   const Icon(Icons.school, size: 90, color: Colors.amber),
                   const SizedBox(height: 20),
                   const Text(
