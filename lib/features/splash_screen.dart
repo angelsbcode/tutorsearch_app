@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -13,74 +12,101 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
 
-    // Temporizador de 2 segundos para pasar al Onboarding
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted)
-        return; // Validación de seguridad por si el widget se desmonta
+    _timer = Timer(const Duration(seconds: 3), () {
+      if (!mounted) return;
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const OnboardingScreen()),
       );
     });
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const azul = Color(0xFF3F51B5);
+    const Color brand = Color(0xFF3E54AC);
 
     return Scaffold(
-      backgroundColor: azul,
+      backgroundColor: brand,
       body: SafeArea(
-        child: SizedBox(
-          width:
-              double.infinity, // Asegura que ocupe todo el ancho de la pantalla
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-              vertical: 16.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment
-                  .center, // Centra horizontalmente todos los elementos
-              children: [
-                const SizedBox.shrink(),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.school, size: 90, color: Colors.amber),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'TutorUP',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 32,
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Aprende, Estudia, Mejora y Comparte',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white70),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(35),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.12),
+                                blurRadius: 24,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: Image.asset(
+                            'images/buho.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        const Text(
+                          'TutorUP',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 42,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        const Text(
+                          'Aprende, Estudia, Mejora y Comparte',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 45),
+                        const CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 3,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-                const Text(
-                  'La mejor app de Tutorías',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 13, color: Colors.white60),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

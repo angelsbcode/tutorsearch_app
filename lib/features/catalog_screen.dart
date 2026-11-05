@@ -19,7 +19,7 @@ class _TutorCatalogScreenState extends State<TutorCatalogScreen> {
   String materiaSeleccionada = 'Todas';
   String textoBusqueda = '';
 
-  List<Tutor> get tutoresFiltrados {
+  List<Tutor> get TutorFiltradas {
     return _repository.obtenerTutor().where((tutor) {
       final coincidenciaMateria =
           materiaSeleccionada == 'Todas' ||
